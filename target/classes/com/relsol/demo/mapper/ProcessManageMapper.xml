@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relsol.demo.dao.ProcessManageMapper">
+
+    <sql id="selectSql">
+        select id, process_type, description from t_process_manage
+    </sql>
+
+    <select id="selectList" parameterType="ProcessManage" resultType="ProcessManage">
+        <include refid="selectSql"/>
+        <where>
+            <if test="id !=null and id !=''">AND id=#{id}</if>
+            <if test="processType !=null and processType !=''">AND processType=#{processType}</if>
+            <if test="description !=null and description !=''">AND description=#{description}</if>
+        </where>
+    </select>
+
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO t_process_manage(
+        <if test="processType !=null and processType !=''">processType,</if>
+        <if test="description !=null and description !=''">description</if>
+        )values(
+        <if test="processType !=null and processType !=''">#{applyStr},</if>
+        <if test="description !=null and description !=''">#{description}</if>
+        )
+    </insert>
+
+    <delete id="delete" parameterType="Integer">
+        delete from t_process_manage where id = #{id}
+    </delete>
+
+    <update id="update">
+        update t_process_manage
+        <set>
+            <if test="processType !=null and processType !=''">processType=#{processType},</if>
+            <if test="description !=null and description !=''">description=#{description},</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

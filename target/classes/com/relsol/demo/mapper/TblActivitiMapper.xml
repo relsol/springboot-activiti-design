@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.relsol.demo.dao.TblActivitiMapper">
+    <sql id="selectActivitiVariable">
+        select id, applyStr, approveStr from tbl_activiti
+    </sql>
+
+    <insert id="insertData" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO tbl_activiti(
+        <if test="applyStr !=null and applyStr !=''">applyStr,</if>
+        <if test="approveStr !=null and approveStr !=''">approveStr</if>
+        )values(
+            <if test="applyStr !=null and applyStr !=''">#{applyStr},</if>
+            <if test="approveStr !=null and approveStr !=''">#{approveStr}</if>
+        )
+    </insert>
+
+    <select id="select" parameterType="ActivitiVariable" resultType="ActivitiVariable">
+        <include refid="selectActivitiVariable"/>
+        <where>
+            <if test="id !=null and id !=''">AND id=#{id}</if>
+            <if test="applyStr !=null and applyStr !=''">AND applyStr=#{applyStr}</if>
+            <if test="approveStr !=null and approveStr !=''">AND approveStr=#{approveStr}</if>
+        </where>
+	</select>
+
+    <select id="selectList" parameterType="ActivitiVariable" resultType="ActivitiVariable">
+        <include refid="selectActivitiVariable"/>
+        <where>
+            <if test="id !=null and id !=''">AND id=#{id}</if>
+            <if test="applyStr !=null and applyStr !=''">AND applyStr=#{applyStr}</if>
+            <if test="approveStr !=null and approveStr !=''">AND approveStr=#{approveStr}</if>
+        </where>
+    </select>
+
+    <delete id="delete" parameterType="Integer">
+        delete from tbl_activiti where id = #{id}
+    </delete>
+
+    <update id="update">
+        update tbl_activiti
+        <set>
+            <if test="applyStr !=null and applyStr !=''">applyStr=#{applyStr},</if>
+            <if test="approveStr !=null and approveStr !=''">approveStr=#{approveStr},</if>
+        </set>
+        where id = #{id}
+    </update>
+</mapper>
